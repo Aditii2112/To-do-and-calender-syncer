@@ -41,7 +41,7 @@ API: Google Calendar REST API
 
 Environment: Python 3.10+
 
-#Installation & Setup
+# Installation & Setup
 Clone the repo:
 
 Bash
