@@ -35,7 +35,7 @@ Interactive Web UI: A Streamlit frontend that replaces terminal prompts with a m
 
 No-AI Summarization: Optimized for performance. Once data is fetched, the briefing is generated via logic rather than extra LLM calls to save on latency.
 
-# ** Tech Stack**
+# Tech Stack
 
 Orchestration: LangGraph (StateGraph)
 
