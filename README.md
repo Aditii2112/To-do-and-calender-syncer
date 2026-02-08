@@ -20,7 +20,8 @@ summarizer_node: Formats a clean, distraction-free agenda for the day, separated
 
 writer_node: The final state-setter that triggers the Streamlit UI to render interactive booking widgets.
 
-<img src="assets/my_workflow_graph.jpg" alt="Workflow graph" width="350">
+![Workflow graph](assets/my_workflow_graph.jpg)
+
 
 # Features
 Dual-Account Sync: Simultaneously fetches and manages data from generic Work and Personal Google Calendar accounts.
