@@ -2,13 +2,13 @@
 # 📅 AI Calendar Intelligence Agent
 A Multi-Agent Orchestrator for Intelligent Scheduling and Daily Briefings
 
-Built with LangGraph, Google Gemini 1.5 Flash, and the Google Calendar API. This agent goes beyond simple scheduling by analyzing user intent, managing cross-account availability (Work/Personal), and providing structured daily briefings.
+Built with LangGraph, Google Gemini, and the Google Calendar API. This agent goes beyond simple scheduling by analyzing user intent, managing cross-account availability (Work/Personal), and providing structured daily briefings.
 
 **System Architecture**
 The agent is built as a Stateful Graph. Instead of a linear script, it uses a state machine to route tasks based on the user's natural language.
 
 **How it Works: The Node Logic**
-parser_node: Uses Gemini 1.5 Flash to transform raw text into a structured JSON task object (Identifying Intent: create, query, or summarize).
+parser_node: Uses Gemini to transform raw text into a structured JSON task object (Identifying Intent: create, query, or summarize).
 
 query_node: Specialized for historical searches. It looks across both Work and Personal accounts to find the last time a specific event occurred.
 
@@ -35,11 +35,11 @@ Interactive Web UI: A Streamlit frontend that replaces terminal prompts with a m
 
 No-AI Summarization: Optimized for performance. Once data is fetched, the briefing is generated via logic rather than extra LLM calls to save on latency.
 
-# **🛠️ Tech Stack**
+# ** Tech Stack**
 
 Orchestration: LangGraph (StateGraph)
 
-LLM: Google Gemini 2.5 Flash (Free source models can also be used)
+LLM: Google Gemini (Free source models can also be used)
 
 Frontend: Streamlit
 
@@ -69,10 +69,10 @@ Environment Variables: Create a .env file:
 
 Plaintext
 GOOGLE_API_KEY=your_gemini_api_key_here
-🖥️ Running the App
+ Running the App
 To launch the interactive web dashboard:
 
 Bash
 streamlit run streamlit.py
-🛡️ Security Note
+Security Note
 This repository does not contain private tokens or credentials. Users must provide their own credentials.json and .env files to run the agent locally.
