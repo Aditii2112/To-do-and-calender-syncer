@@ -20,7 +20,12 @@ summarizer_node: Formats a clean, distraction-free agenda for the day, separated
 
 writer_node: The final state-setter that triggers the Streamlit UI to render interactive booking widgets.
 
-![Workflow graph](assets/my_workflow_graph.jpg)
+# Your Project
+
+![Workflow Graph](/assets/my_workflow_graph.png)
+
+## Description
+Your multi-agent orchestrator workflow.
 
 
 # Features
