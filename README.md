@@ -1,6 +1,7 @@
 
 # 📅 AI Calendar Intelligence Agent
 A Multi-Agent Orchestrator for Intelligent Scheduling and Daily Briefings
+Demo: https://drive.google.com/file/d/1VLfXz6QnrCsShMmZGhLbvCBUfv-3zYyc/view?usp=sharing
 
 Built with LangGraph, Google Gemini, and the Google Calendar API. This agent goes beyond simple scheduling by analyzing user intent, managing cross-account availability (Work/Personal), and providing structured daily briefings.
 
