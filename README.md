@@ -20,7 +20,7 @@ summarizer_node: Formats a clean, distraction-free agenda for the day, separated
 
 writer_node: The final state-setter that triggers the Streamlit UI to render interactive booking widgets.
 
-Features
+# Features
 Dual-Account Sync: Simultaneously fetches and manages data from generic Work and Personal Google Calendar accounts.
 
 Intent-Based Routing: Automatically distinguishes between "What's my day look like?" (Summary) and "When did I last do laundry?" (Query).
@@ -29,7 +29,8 @@ Interactive Web UI: A Streamlit frontend that replaces terminal prompts with a m
 
 No-AI Summarization: Optimized for performance. Once data is fetched, the briefing is generated via logic rather than extra LLM calls to save on latency.
 
-**🛠️ Tech Stack**
+# **🛠️ Tech Stack**
+
 Orchestration: LangGraph (StateGraph)
 
 LLM: Google Gemini 2.5 Flash (Free source models can also be used)
