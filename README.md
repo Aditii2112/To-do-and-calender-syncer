@@ -1,5 +1,5 @@
 
-# 📅 AI Calendar Intelligence Agent
+# 📅 Oasis OS
 A Multi-Agent Orchestrator for Intelligent Scheduling and Daily Briefings
 
 Demo: https://drive.google.com/file/d/1VLfXz6QnrCsShMmZGhLbvCBUfv-3zYyc/view?usp=sharing
