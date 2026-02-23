@@ -1,4 +1,4 @@
-from typing import TypedDict, List
+from typing import TypedDict, List, Optional
 from langgraph.graph import StateGraph, END
 from datetime import datetime, timedelta
 
@@ -10,7 +10,9 @@ class AgentState(TypedDict):
     parsed_task: dict
     existing_events: List[dict]
     final_decision: str
-    needs_booking_ui: bool # Add this
+    needs_booking_ui: bool
+    suggested_slots: List[dict]
+    query_events: List[dict]
 
 # --- NODES ---
 
@@ -37,13 +39,13 @@ def query_node(state: AgentState):
             decision = f"✅ Not currently scheduled. Last occurrence: {latest_past['start'].split('T')[0]} ({latest_past['account']})."
     else:
         decision = f"❌ No events found for '{task['title']}'."
-    return {"final_decision": decision}
+    return {"final_decision": decision, "query_events": history}
 
 def fetcher_node(state: AgentState):
     print("--- [Node: Fetcher] ---")
     target_date = state["parsed_task"]["date"] 
     events = fetch_calendar_events(["work", "personal"], target_date)
-    return {"existing_events": events}
+    return {"existing_events": events, "query_events": []}
 
 def resolver_node(state: AgentState):
     print("--- [Node: Smart Resolver] ---")
@@ -88,7 +90,25 @@ def resolver_node(state: AgentState):
         report += "\n🟢 BEST TIMES TO SCHEDULE:\n"
         report += "\n".join([f" • {block}" for block in available_blocks])
 
-    return {"final_decision": report}
+    # Structured suggested slots for API (HH:MM 24h format)
+    suggested_slots = []
+    curr = day_start
+    for b_s, b_e in busy_slots:
+        if b_s > curr:
+            suggested_slots.append({
+                "start_time": curr.strftime("%H:%M"),
+                "end_time": b_s.strftime("%H:%M"),
+                "account_suggestions": ["work", "personal"]
+            })
+        curr = max(curr, b_e)
+    if curr < day_end:
+        suggested_slots.append({
+            "start_time": curr.strftime("%H:%M"),
+            "end_time": day_end.strftime("%H:%M"),
+            "account_suggestions": ["work", "personal"]
+        })
+
+    return {"final_decision": report, "suggested_slots": suggested_slots}
 
 def summarizer_node(state: AgentState):
     print("--- [Node: Daily Briefing] ---")
@@ -96,7 +116,7 @@ def summarizer_node(state: AgentState):
     target_date = state["parsed_task"]["date"]
     
     if not events:
-        return {"final_decision": f"Your calendar is clear for {target_date}."}
+        return {"final_decision": f"Your calendar is clear for {target_date}.", "suggested_slots": []}
 
     report = f"📅 Agenda for {target_date}:\n" + "-"*30 + "\n"
     for acc in ["work", "personal"]:
@@ -106,7 +126,7 @@ def summarizer_node(state: AgentState):
             for e in acc_events:
                 time = e['start'].split('T')[1][:5] if 'T' in e['start'] else "All Day"
                 report += f" • {time}: {e['summary']}\n"
-    return {"final_decision": report}
+    return {"final_decision": report, "suggested_slots": []}
 
 # def writer_node(state: AgentState):
 #     print("--- [Node: Output/Writer] ---")
@@ -134,7 +154,9 @@ def writer_node(state: AgentState):
     
     return {
         "final_decision": state['final_decision'],
-        "needs_booking_ui": should_book
+        "needs_booking_ui": should_book,
+        "suggested_slots": state.get("suggested_slots") or [],
+        "query_events": state.get("query_events") or []
     }
 
 # --- ROUTING LOGIC ---
@@ -170,17 +192,13 @@ builder.add_edge("resolve", "write")
 builder.add_edge("write", END)
 
 app = builder.compile()
-# Assuming 'app' is your compiled workflow
-try:
-    # 1. Get the binary PNG data
-    png_binary = app.get_graph().draw_mermaid_png()
-    
-    # 2. Save it as a real file in your 'To-do sync' folder
-    with open("my_workflow_graph.png", "wb") as f:
-        f.write(png_binary)
-        
-    print("✅ Success! Open 'my_workflow_graph.png' in your folder to see the graph.")
-except Exception as e:
-    print(f"Error rendering: {e}")
+
 if __name__ == "__main__":
+    try:
+        png_binary = app.get_graph().draw_mermaid_png()
+        with open("my_workflow_graph.png", "wb") as f:
+            f.write(png_binary)
+        print("✅ Success! Open 'my_workflow_graph.png' in your folder to see the graph.")
+    except Exception as e:
+        print(f"Error rendering: {e}")
     app.invoke({"user_input": input("\nHow can I help with your calendar? ")})

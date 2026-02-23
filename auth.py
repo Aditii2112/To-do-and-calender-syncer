@@ -27,6 +27,24 @@ def get_calendar_service(account_name: str):
 
     return build('calendar', 'v3', credentials=creds)
 
+def check_auth_status():
+    """Returns auth status for work and personal accounts."""
+    status = {"work": False, "personal": False}
+    for acc in ["work", "personal"]:
+        try:
+            token_file = f"token_{acc}.json"
+            if os.path.exists(token_file):
+                creds = Credentials.from_authorized_user_file(token_file, SCOPES)
+                if creds and creds.valid:
+                    status[acc] = True
+                elif creds and creds.expired and creds.refresh_token:
+                    creds.refresh(Request())
+                    status[acc] = True
+        except Exception:
+            pass
+    return status
+
+
 if __name__ == "__main__":
     # Updated labels for generic use
     print("Logging into Personal...")

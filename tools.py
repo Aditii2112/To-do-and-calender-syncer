@@ -33,15 +33,19 @@ def fetch_calendar_events(accounts, target_date):
             
     return all_events
 
-def create_calendar_event(account_name, summary, start_time_str):
+def create_calendar_event(account_name, summary, start_time_str, end_time_str=None):
     """
-    Inserts a 1-hour event into the chosen account.
+    Inserts an event into the chosen account.
     start_time_str format: "YYYY-MM-DD HH:MM"
+    end_time_str optional; if None, defaults to 1 hour after start.
     """
     service = get_calendar_service(account_name) 
     
     start_dt = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M")
-    end_dt = start_dt + timedelta(hours=1)
+    if end_time_str:
+        end_dt = datetime.strptime(end_time_str, "%Y-%m-%d %H:%M")
+    else:
+        end_dt = start_dt + timedelta(hours=1)
     
     event_body = {
         'summary': summary,

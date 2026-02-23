@@ -6,6 +6,10 @@ langchain-google-genai>=2.0.0
 # --- Web Interface ---
 streamlit>=1.30.0
 
+# --- API ---
+fastapi>=0.109.0
+uvicorn>=0.27.0
+
 # --- Google Calendar API & Auth ---
 google-api-python-client>=2.100.0
 google-auth-httplib2>=0.1.1
