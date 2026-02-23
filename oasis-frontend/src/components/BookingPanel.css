@@ -1,0 +1,87 @@
+.booking-panel {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.booking-panel--success {
+  background: #e8f5e9;
+  border-color: #4caf50;
+}
+
+.booking-panel__header {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.booking-panel__fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.booking-panel__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.booking-panel__field label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.booking-panel__field input,
+.booking-panel__field select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.booking-panel__validation,
+.booking-panel__error {
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.booking-panel__validation {
+  color: #666;
+}
+
+.booking-panel__error {
+  color: #d32f2f;
+}
+
+.booking-panel__btn {
+  padding: 0.6rem 1.2rem;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.booking-panel__btn:hover:not(:disabled) {
+  background: #1565c0;
+}
+
+.booking-panel__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.booking-panel__success {
+  font-weight: 500;
+  color: #2e7d32;
+}
+
+.booking-panel__link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #1976d2;
+}

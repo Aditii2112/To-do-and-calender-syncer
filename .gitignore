@@ -16,6 +16,13 @@ venv/
 *.egg-info/
 .eggs/
 
+# Node / frontend
+node_modules/
+dist/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
 # IDE / OS
 .DS_Store
 .idea/

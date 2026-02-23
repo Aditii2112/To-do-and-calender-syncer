@@ -1,0 +1,30 @@
+.message-bubble {
+  max-width: 85%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.message-bubble--user {
+  margin-left: auto;
+  background: #1976d2;
+  color: white;
+}
+
+.message-bubble--assistant {
+  margin-right: auto;
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.message-bubble__content {
+  word-wrap: break-word;
+}
+
+.message-bubble__text {
+  margin: 0;
+  font-family: inherit;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+}
