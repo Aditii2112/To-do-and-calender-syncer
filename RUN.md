@@ -17,18 +17,20 @@ This starts both the FastAPI backend (port 8000) and the React frontend (port 51
 
 ```
 To-do-and-calender-syncer/         # Project root
-├── api/
-│   ├── __init__.py
-│   └── main.py                    # FastAPI wrapper
-├── app.py                         # LangGraph state machine
-├── auth.py                        # OAuth for Work/Personal
-├── parser.py                      # Gemini intent parsing
-├── tools.py                       # Calendar fetch/create/search
-├── requirements.txt
-├── API_README.md
-├── (credentials.json, token_work.json, token_personal.json, .env)
+├── backend/                       # Backend (Python)
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── main.py                # FastAPI wrapper
+│   ├── app.py                     # LangGraph state machine
+│   ├── auth.py                    # OAuth for Work/Personal
+│   ├── parser.py                  # Gemini intent parsing
+│   ├── tools.py                   # Calendar fetch/create/search
+│   ├── streamlit.py               # Optional Streamlit UI
+│   ├── requirements.txt
+│   ├── API_README.md
+│   └── (credentials.json, token_work.json, token_personal.json, .env)
 │
-├── oasis-frontend/                # Frontend (React + TypeScript)
+├── frontend/                      # Frontend (React + TypeScript)
 │   ├── src/
 │   │   ├── api/
 │   │   │   └── client.ts          # chat(), book()
@@ -49,6 +51,7 @@ To-do-and-calender-syncer/         # Project root
 │   └── FRONTEND_README.md
 │
 ├── FRONTEND_README.md
+├── assets/                        # Diagrams, images
 ├── package.json                   # Root: npm run dev runs both
 └── RUN.md                         # This file
 ```
@@ -56,6 +59,7 @@ To-do-and-calender-syncer/         # Project root
 ## Step 1: Backend Setup
 
 ```bash
+cd backend
 pip install -r requirements.txt
 ```
 
@@ -67,6 +71,7 @@ Ensure you have:
 ## Step 2: Start Backend
 
 ```bash
+cd backend
 uvicorn api.main:api --reload --host 0.0.0.0 --port 8000
 ```
 
@@ -75,7 +80,7 @@ Backend runs at http://localhost:8000
 ## Step 3: Frontend Setup & Start
 
 ```bash
-cd oasis-frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -95,4 +100,4 @@ The Vite dev server proxies `/api/*` to `http://localhost:8000/*`.
 ## API Base URL (Frontend)
 
 - Dev: `/api` (proxied automatically)
-- Override: create `oasis-frontend/.env` with `VITE_API_BASE=http://localhost:8000`
+- Override: create `frontend/.env` with `VITE_API_BASE=http://localhost:8000`

@@ -39,42 +39,74 @@ No-AI Summarization: Optimized for performance. Once data is fetched, the briefi
 
 # Tech Stack
 
-Orchestration: LangGraph (StateGraph)
+- Orchestration: LangGraph (StateGraph)
+- LLM: Google Gemini (free-tier friendly)
+- Backend: Python (FastAPI + LangGraph) in `backend/`
+- Frontend: React + TypeScript (Vite) in `frontend/`
+- API: Google Calendar REST API
+- Environment: Python 3.10+, Node 18+
 
-LLM: Google Gemini (Free source models can also be used)
+# Installation & Setup (Monorepo)
 
-Frontend: Streamlit
-
-API: Google Calendar REST API
-
-Environment: Python 3.10+
-
-# Installation & Setup
 Clone the repo:
 
-Bash
-git clone https://github.com/your-username/To-do-Sync.git
-cd To-do-Sync
-Install Dependencies:
+```bash
+git clone https://github.com/Aditii2112/To-do-and-calender-syncer.git
+cd To-do-and-calender-syncer
+```
 
-Bash
+## Backend setup (`backend/`)
+
+```bash
+cd backend
 pip install -r requirements.txt
-Google API Setup:
+```
 
-Enable Google Calendar API in Google Cloud Console.
+Google API setup:
 
-Download credentials.json and place it in the root folder.
+- Enable Google Calendar API in Google Cloud Console.
+- Download `credentials.json` and place it in the `backend/` folder.
+- On the first run, the app will open a browser to generate `token_work.json` and `token_personal.json` in `backend/`.
 
-On the first run, the app will open a browser to generate token_work.json and token_personal.json.
+Environment variables: create a `.env` file in `backend/`:
 
-Environment Variables: Create a .env file:
-
-Plaintext
+```bash
 GOOGLE_API_KEY=your_gemini_api_key_here
- Running the App
-To launch the interactive web dashboard:
+```
 
-Bash
-streamlit run streamlit.py
-Security Note
-This repository does not contain private tokens or credentials. Users must provide their own credentials.json and .env files to run the agent locally.
+Start the API server:
+
+```bash
+uvicorn api.main:api --reload --host 0.0.0.0 --port 8000
+```
+
+## Frontend setup (`frontend/`)
+
+From the repo root:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The React app runs at `http://localhost:5173` and proxies `/api/*` to the backend at `http://localhost:8000`.
+
+## One-command dev startup (root)
+
+From the repo root (`To-do-and-calender-syncer/`):
+
+```bash
+npm install
+npm run dev
+```
+
+This starts both:
+
+- FastAPI backend on port `8000`
+- React frontend on port `5173`
+
+## Security Note
+
+This repository does not contain private tokens or credentials.  
+You must provide your own `backend/credentials.json`, `.env`, and token files locally. These paths are ignored via `.gitignore` and will not be pushed.

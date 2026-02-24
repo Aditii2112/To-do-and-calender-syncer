@@ -4,7 +4,7 @@ FastAPI wrapper for the LangGraph calendar agent.
 
 ## Run
 
-From `To-do-and-calender-syncer/`:
+From `backend/`:
 
 ```bash
 pip install -r requirements.txt

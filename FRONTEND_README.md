@@ -7,7 +7,7 @@ React + TypeScript frontend for the Oasis OS Multi-Agent Calendar Assistant.
 From the project root (`To-do-and-calender-syncer/`):
 
 ```bash
-cd oasis-frontend
+cd frontend
 npm install
 ```
 
@@ -16,6 +16,7 @@ npm install
 1. **Start the backend**:
 
    ```bash
+   cd backend
    pip install -r requirements.txt
    uvicorn api.main:api --reload --host 0.0.0.0 --port 8000
    ```
@@ -23,7 +24,7 @@ npm install
 2. **Start the frontend**:
 
    ```bash
-   cd oasis-frontend
+   cd frontend
    npm run dev
    ```
 
