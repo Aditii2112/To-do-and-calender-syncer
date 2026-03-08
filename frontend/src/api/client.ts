@@ -1,11 +1,32 @@
-/**
- * API client for Oasis OS backend.
- * Uses VITE_API_BASE or /api (proxied to backend) by default.
- */
-
 const API_BASE = import.meta.env.VITE_API_BASE || '/api';
 
 // --- Types ---
+
+export interface EventAttendee {
+  email: string;
+  displayName: string;
+}
+
+export interface CalendarEvent {
+  id?: string;
+  summary: string;
+  start: string;
+  end: string;
+  account: string;
+  attendees?: EventAttendee[];
+  description?: string;
+  category?: 'fixed' | 'floating';
+}
+
+export interface QueryEvent {
+  summary: string;
+  start: string;
+  end?: string;
+  account: string;
+  attendees?: EventAttendee[];
+  description?: string;
+  category?: string;
+}
 
 export interface ParsedTask {
   title: string;
@@ -15,6 +36,7 @@ export interface ParsedTask {
   category: string;
   account_id: string;
   intent: string;
+  summary_horizon?: string;
 }
 
 export interface SuggestedSlot {
@@ -26,6 +48,7 @@ export interface SuggestedSlot {
 export interface ChatResponse {
   final_decision: string;
   needs_booking_ui: boolean;
+  needs_floating_vs_fixed_choice?: boolean;
   parsed_task: ParsedTask;
   existing_events?: {
     work: CalendarEvent[];
@@ -33,19 +56,7 @@ export interface ChatResponse {
   };
   suggested_slots?: SuggestedSlot[];
   query_events?: QueryEvent[];
-}
-
-export interface CalendarEvent {
-  summary: string;
-  start: string;
-  end?: string;
-  account: string;
-}
-
-export interface QueryEvent {
-  summary: string;
-  start: string;
-  account: string;
+  summary_horizon?: string;
 }
 
 export interface BookPayload {
@@ -55,6 +66,7 @@ export interface BookPayload {
   end_time?: string;
   account_id: string;
   category?: string;
+  description?: string;
 }
 
 export interface BookResponse {
@@ -63,7 +75,7 @@ export interface BookResponse {
   message: string;
 }
 
-// --- Client ---
+// --- Client functions ---
 
 export async function chat(userInput: string, timezone?: string): Promise<ChatResponse> {
   const res = await fetch(`${API_BASE}/chat`, {
@@ -89,4 +101,62 @@ export async function book(payload: BookPayload): Promise<BookResponse> {
     throw new Error(data.detail || data.message || 'Booking failed');
   }
   return data;
+}
+
+export interface DeleteEventPayload {
+  account_id: string;
+  event_id: string;
+}
+
+export interface DeleteEventResponse {
+  ok: boolean;
+  message: string;
+}
+
+export async function deleteEvent(payload: DeleteEventPayload): Promise<DeleteEventResponse> {
+  const res = await fetch(`${API_BASE}/event/delete`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.detail || data.message || 'Delete failed');
+  }
+  return data;
+}
+
+/** Fetch events for a single day. Google API only — no LLM. Use when user clicks a date. */
+export interface DayEventsResponse {
+  date: string;
+  existing_events: { work: CalendarEvent[]; personal: CalendarEvent[] };
+}
+
+export async function fetchEventsForDay(date: string): Promise<DayEventsResponse> {
+  const res = await fetch(`${API_BASE}/events?date=${encodeURIComponent(date)}`);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || 'Failed to fetch events');
+  }
+  return res.json();
+}
+
+/** User chose "Assign a time" — get suggested slots (Google API only, no LLM). */
+export interface BookingSlotsResponse {
+  needs_booking_ui: boolean;
+  suggested_slots: SuggestedSlot[];
+  parsed_task: ParsedTask;
+}
+
+export async function fetchBookingSlots(parsed_task: ParsedTask): Promise<BookingSlotsResponse> {
+  const res = await fetch(`${API_BASE}/booking/slots`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ parsed_task }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: res.statusText }));
+    throw new Error(err.detail || 'Failed to get slots');
+  }
+  return res.json();
 }

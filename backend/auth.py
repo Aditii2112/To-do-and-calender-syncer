@@ -8,7 +8,6 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 def get_calendar_service(account_name: str):
     creds = None
-    # Changed from token_ucdavis.json to token_work.json logic
     token_file = f'token_{account_name}.json'
 
     if os.path.exists(token_file):
@@ -21,7 +20,7 @@ def get_calendar_service(account_name: str):
             flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
             # prompt='select_account' forces Google to ask WHICH email you want to use
             creds = flow.run_local_server(port=0, prompt='select_account')
-        
+
         with open(token_file, 'w') as token:
             token.write(creds.to_json())
 
@@ -46,7 +45,6 @@ def check_auth_status():
 
 
 if __name__ == "__main__":
-    # Updated labels for generic use
     print("Logging into Personal...")
     get_calendar_service("personal")
     print("Logging into Work...")

@@ -1,25 +1,59 @@
-:root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #333;
-  background-color: #f5f7fa;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import "tailwindcss";
+
+@theme {
+  --color-oasis-50: #fdf8f0;
+  --color-oasis-100: #faecd8;
+  --color-oasis-200: #f5d6ab;
+  --color-oasis-300: #edb96e;
+  --color-oasis-400: #e49a3a;
+  --color-oasis-500: #d97d1a;
+  --color-oasis-600: #c06414;
+  --color-oasis-700: #9f4b14;
+  --color-oasis-800: #823c17;
+  --color-oasis-900: #6b3316;
+
+  --color-work: #6366f1;
+  --color-work-light: #eef2ff;
+  --color-personal: #ec4899;
+  --color-personal-light: #fdf2f8;
+
+  --color-fixed: #6366f1;
+  --color-fixed-light: #eef2ff;
+  --color-floating: #f59e0b;
+  --color-floating-light: #fffbeb;
+
+  --color-free: #10b981;
+  --color-free-light: #ecfdf5;
+  --color-busy: #ef4444;
+  --color-busy-light: #fef2f2;
+
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(135deg, #fdf8f0 0%, #faecd8 40%, #f5f0eb 100%);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
   min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
 }
